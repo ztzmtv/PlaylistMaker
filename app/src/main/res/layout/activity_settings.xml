@@ -1,31 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="@dimen/back_margin"
         android:layout_marginBottom="30dp"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/back_margin"
-            android:contentDescription="@string/go_back"
-            android:src="@drawable/arrow_back" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/settings_title"
-            android:textColor="@color/black"
-            android:textSize="22sp" />
-    </LinearLayout>
+        android:drawablePadding="28dp"
+        android:text="@string/settings_title"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        app:drawableStartCompat="@drawable/arrow_back" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,9 +27,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginVertical="@dimen/settings_item_margin_vertical"
-            android:layout_marginStart="@dimen/settings_item_margin_start"
+            android:layout_marginStart="@dimen/settings_item_margin_horizontal"
             android:layout_weight="1"
+            android:paddingVertical="@dimen/settings_item_padding_vertical"
             android:text="@string/settings_dark_theme"
             android:textColor="@color/black" />
 
@@ -52,76 +43,34 @@
             tools:ignore="UseSwitchCompatOrMaterialXml" />
     </LinearLayout>
 
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_gravity="center_vertical"
+        android:layout_marginHorizontal="@dimen/settings_item_margin_horizontal"
+        android:paddingVertical="@dimen/settings_item_padding_vertical"
+        android:text="@string/settings_share_app"
+        android:textColor="@color/black"
+        app:drawableEndCompat="@drawable/share" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginVertical="@dimen/settings_item_margin_vertical"
-            android:layout_marginStart="@dimen/settings_item_margin_start"
-            android:layout_weight="1"
-            android:text="@string/settings_share_app"
-            android:textColor="@color/black" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/settings_icon_margin_end"
-            android:contentDescription="@string/settings_share_app"
-            android:src="@drawable/share" />
-    </LinearLayout>
-
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_gravity="center_vertical"
+        android:layout_marginHorizontal="@dimen/settings_item_margin_horizontal"
+        android:paddingVertical="@dimen/settings_item_padding_vertical"
+        android:text="@string/settings_write_support"
+        android:textColor="@color/black"
+        app:drawableEndCompat="@drawable/support" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginVertical="@dimen/settings_item_margin_vertical"
-            android:layout_marginStart="@dimen/settings_item_margin_start"
-            android:layout_weight="1"
-            android:text="@string/settings_write_support"
-            android:textColor="@color/black" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/settings_icon_margin_end"
-            android:contentDescription="@string/settings_write_support"
-            android:src="@drawable/support" />
-    </LinearLayout>
-
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginVertical="@dimen/settings_item_margin_vertical"
-            android:layout_marginStart="@dimen/settings_item_margin_start"
-            android:layout_weight="1"
-            android:text="@string/settings_user_agreement"
-            android:textColor="@color/black" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/settings_icon_margin_end"
-            android:contentDescription="@string/settings_user_agreement"
-            android:src="@drawable/arrow_forward" />
-    </LinearLayout>
+        android:layout_gravity="center_vertical"
+        android:layout_marginHorizontal="@dimen/settings_item_margin_horizontal"
+        android:paddingVertical="@dimen/settings_item_padding_vertical"
+        android:text="@string/settings_user_agreement"
+        android:textColor="@color/black"
+        app:drawableEndCompat="@drawable/arrow_forward" />
 
 </LinearLayout>

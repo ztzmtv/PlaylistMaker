@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="24dp">
 
     <TextView
         android:layout_width="match_parent"
@@ -69,9 +70,5 @@
         app:iconGravity="textStart"
         app:iconPadding="@dimen/button_icon_padding"
         app:iconTint="@color/black" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="24dp" />
 
 </LinearLayout>
