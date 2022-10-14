@@ -13,6 +13,7 @@
         android:layout_margin="@dimen/back_margin"
         android:layout_marginBottom="30dp"
         android:drawablePadding="28dp"
+        android:fontFamily="@font/ys_display_medium"
         android:text="@string/settings_title"
         android:textColor="@color/black"
         android:textSize="22sp"
@@ -24,14 +25,11 @@
         android:orientation="horizontal">
 
         <TextView
+            style="@style/SettingsActivityTextViewStyle"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/settings_item_margin_horizontal"
             android:layout_weight="1"
             android:paddingVertical="@dimen/settings_item_padding_vertical"
-            android:text="@string/settings_dark_theme"
-            android:textColor="@color/black" />
+            android:text="@string/settings_dark_theme" />
 
         <Switch
             android:layout_width="wrap_content"
@@ -44,33 +42,18 @@
     </LinearLayout>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginHorizontal="@dimen/settings_item_margin_horizontal"
-        android:paddingVertical="@dimen/settings_item_padding_vertical"
+        style="@style/SettingsActivityTextViewStyle"
         android:text="@string/settings_share_app"
-        android:textColor="@color/black"
         app:drawableEndCompat="@drawable/share" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginHorizontal="@dimen/settings_item_margin_horizontal"
-        android:paddingVertical="@dimen/settings_item_padding_vertical"
+        style="@style/SettingsActivityTextViewStyle"
         android:text="@string/settings_write_support"
-        android:textColor="@color/black"
         app:drawableEndCompat="@drawable/support" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginHorizontal="@dimen/settings_item_margin_horizontal"
-        android:paddingVertical="@dimen/settings_item_padding_vertical"
+        style="@style/SettingsActivityTextViewStyle"
         android:text="@string/settings_user_agreement"
-        android:textColor="@color/black"
         app:drawableEndCompat="@drawable/arrow_forward" />
 
 </LinearLayout>
