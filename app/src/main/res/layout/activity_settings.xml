@@ -15,7 +15,7 @@
         android:drawablePadding="28dp"
         android:fontFamily="@font/ys_display_medium"
         android:text="@string/settings_title"
-        android:textColor="@color/black"
+        android:textColor="?attr/colorOnPrimary"
         android:textSize="22sp"
         app:drawableStartCompat="@drawable/arrow_back" />
 
