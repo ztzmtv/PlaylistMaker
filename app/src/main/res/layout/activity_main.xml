@@ -21,6 +21,7 @@
     <Button
         android:id="@+id/btn_search"
         style="@style/MainActivityButtonStyle"
+
         android:text="@string/main_button_search"
         app:icon="@drawable/search" />
 
