@@ -4,4 +4,6 @@
     <color name="ic_color_active">@color/white</color>
     <color name="text_color">@color/white</color>
     <color name="primary">#1A1B22</color>
+    <color name="edit_text_background">@color/white</color>
+    <color name="edit_text_icon_color">@color/black</color>
 </resources>
