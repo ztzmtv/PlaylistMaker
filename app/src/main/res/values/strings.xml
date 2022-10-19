@@ -15,4 +15,6 @@
     <string name="email_subject_support">Сообщение разработчикам и разработчицам приложения Playlist Make</string>
     <string name="email_text_support">Спасибо разработчикам и разработчицам за крутое приложение!</string>
     <string name="url_user_agreement_yand_prac">https://yandex.ru/legal/practicum_offer/</string>
+    <string name="et_search_hint">Поиск</string>
+    <string name="title_tv_search">Поиск</string>
 </resources>

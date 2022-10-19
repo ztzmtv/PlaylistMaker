@@ -8,15 +8,18 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 class SearchActivity : AppCompatActivity() {
+
+    private lateinit var searchEditText: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
-        val searchEditText = findViewById<EditText>(R.id.et_search)
+        searchEditText = findViewById(R.id.et_search)
         searchEditText.requestFocus()
         val inputMethodManager =
             getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
@@ -32,7 +35,21 @@ class SearchActivity : AppCompatActivity() {
         })
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val editTextString = searchEditText.text.toString()
+        outState.putString(EDIT_TEXT_KEY, editTextString)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        val editTextString = savedInstanceState.getString(EDIT_TEXT_KEY, "")
+        searchEditText.setText(editTextString, TextView.BufferType.EDITABLE)
+    }
+
     companion object {
+        private const val EDIT_TEXT_KEY = "EDIT_TEXT_KEY"
         fun getIntent(context: Context) = Intent(context, SearchActivity::class.java)
+
     }
 }
