@@ -17,4 +17,5 @@
     <string name="url_user_agreement_yand_prac">https://yandex.ru/legal/practicum_offer/</string>
     <string name="et_search_hint">Поиск</string>
     <string name="title_tv_search">Поиск</string>
+    <string name="album_title_and_track_time_template">%s • %s</string>
 </resources>
