@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingStart="5dp"
+    android:paddingEnd="20dp">
+
+    <ImageView
+        android:id="@+id/iv_artwork"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_margin="8dp"
+        android:contentDescription="@string/artwork_content_description"
+        tools:src="@drawable/album_placeholder" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_track_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:fontFamily="@font/ys_display_regular"
+            android:textColor="@color/text_color_black_white"
+            android:textSize="@dimen/track_name_text_size"
+            tools:text="Track Name" />
+
+        <TextView
+            android:id="@+id/tv_artist_name_and_track_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/ys_display_regular"
+            android:textColor="@color/gray_white"
+            android:textSize="@dimen/artist_name_text_size"
+            tools:text="Track Name • 1:23" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:contentDescription="@string/go_to_track_content_description"
+        android:src="@drawable/arrow_forward" />
+
+</LinearLayout>
