@@ -12,7 +12,7 @@
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_margin="8dp"
-        android:contentDescription="Изображение альбома"
+        android:contentDescription="@string/artwork_content_description"
         tools:src="@drawable/album_placeholder" />
 
     <LinearLayout
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
             android:fontFamily="@font/ys_display_regular"
-            android:textColor="@color/yp_black"
+            android:textColor="@color/text_color_black_white"
             android:textSize="16sp"
             tools:text="Track Name" />
 
@@ -36,9 +36,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/ys_display_regular"
-            android:textColor="@color/yp_text_gray"
+            android:textColor="@color/gray_white"
             android:textSize="11sp"
-            tools:text="Track Name" />
+            tools:text="Track Name • 1:23" />
 
     </LinearLayout>
 
@@ -46,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:contentDescription="Перейти к треку"
+        android:contentDescription="@string/go_to_track_content_description"
         android:src="@drawable/arrow_forward" />
 
 </LinearLayout>

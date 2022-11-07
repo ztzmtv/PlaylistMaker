@@ -28,7 +28,7 @@ class SearchAdapter(
         return tracks.size
     }
 
-    inner class SearchViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+    class SearchViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
         private val artwork: ImageView
         private val artistNameAndTrackTime: TextView
