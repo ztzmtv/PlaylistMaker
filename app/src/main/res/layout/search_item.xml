@@ -28,7 +28,7 @@
             android:layout_marginTop="14dp"
             android:fontFamily="@font/ys_display_regular"
             android:textColor="@color/text_color_black_white"
-            android:textSize="16sp"
+            android:textSize="@dimen/track_name_text_size"
             tools:text="Track Name" />
 
         <TextView
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/ys_display_regular"
             android:textColor="@color/gray_white"
-            android:textSize="11sp"
+            android:textSize="@dimen/artist_name_text_size"
             tools:text="Track Name • 1:23" />
 
     </LinearLayout>
