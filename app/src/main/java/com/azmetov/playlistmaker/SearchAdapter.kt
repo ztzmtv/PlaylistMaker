@@ -46,6 +46,7 @@ class SearchAdapter(
                 .load(track.artworkUrl100)
                 .centerCrop()
                 .transform(RoundedCorners(2))
+                .placeholder(R.drawable.album_placeholder)
                 .into(artwork)
             val template = view.context.getString(R.string.album_title_and_track_time_template)
             artistNameAndTrackTime.text = String.format(template, track.artistName, track.trackTime)
