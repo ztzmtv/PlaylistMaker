@@ -3,6 +3,7 @@
     <dimen name="title_margin_horizontal">16dp</dimen>
     <dimen name="title_margin_top">14dp</dimen>
     <dimen name="text_size">22sp</dimen>
+    <dimen name="artist_name_text_size">11sp</dimen>
     <dimen name="button_icon_padding">10dp</dimen>
     <dimen name="settings_item_padding_vertical">21dp</dimen>
     <dimen name="settings_item_margin_horizontal">16dp</dimen>
@@ -11,4 +12,5 @@
     <dimen name="main_button_margin_vertical">8dp</dimen>
     <dimen name="main_button_margin_start">17dp</dimen>
     <dimen name="main_button_margin_end">15dp</dimen>
+    <dimen name="track_name_text_size">16sp</dimen>
 </resources>
