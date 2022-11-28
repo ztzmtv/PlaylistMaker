@@ -1,4 +1,4 @@
-package com.azmetov.playlistmaker
+package com.azmetov.playlistmaker.ui
 
 import android.content.Context
 import android.content.Intent
@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.azmetov.playlistmaker.R
 
 class SettingsActivity : AppCompatActivity() {
 

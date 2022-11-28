@@ -1,9 +1,16 @@
-package com.azmetov.playlistmaker
+package com.azmetov.playlistmaker.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.azmetov.playlistmaker.R
+import com.azmetov.playlistmaker.network.ApiFactory
+import com.azmetov.playlistmaker.network.PlaylistResponse
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 

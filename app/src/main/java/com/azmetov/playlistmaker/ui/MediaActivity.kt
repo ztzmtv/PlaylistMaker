@@ -1,9 +1,10 @@
-package com.azmetov.playlistmaker
+package com.azmetov.playlistmaker.ui
 
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.azmetov.playlistmaker.R
 
 class MediaActivity : AppCompatActivity() {
 

@@ -1,4 +1,4 @@
-package com.azmetov.playlistmaker
+package com.azmetov.playlistmaker.ui
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.azmetov.playlistmaker.R
+import com.azmetov.playlistmaker.entities.Track
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
@@ -30,15 +32,12 @@ class SearchAdapter(
 
     class SearchViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
-        private val artwork: ImageView
-        private val artistNameAndTrackTime: TextView
-        private val trackName: TextView
-
-        init {
-            artwork = view.findViewById(R.id.iv_artwork)
-            artistNameAndTrackTime = view.findViewById(R.id.tv_artist_name_and_track_time)
-            trackName = view.findViewById(R.id.tv_track_name)
-        }
+        private val artwork: ImageView =
+            view.findViewById(R.id.iv_artwork)
+        private val artistNameAndTrackTime: TextView =
+            view.findViewById(R.id.tv_artist_name_and_track_time)
+        private val trackName: TextView =
+            view.findViewById(R.id.tv_track_name)
 
         fun bind(track: Track) {
             trackName.text = track.trackName
