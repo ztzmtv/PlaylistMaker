@@ -3,19 +3,18 @@ package com.azmetov.playlistmaker.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.azmetov.playlistmaker.R
-import com.azmetov.playlistmaker.entities.Track
 import com.azmetov.playlistmaker.network.ApiFactory
 import com.azmetov.playlistmaker.network.PlaylistResponse
 import com.azmetov.playlistmaker.other.Converter
@@ -26,56 +25,105 @@ import retrofit2.Response
 
 
 class SearchActivity : AppCompatActivity() {
-
     private lateinit var searchEditText: EditText
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var linearLayoutUpdate: LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
+        setViews()
 
-        val recyclerView = findViewById<RecyclerView>(R.id.searchRecyclerView)
-
-        searchEditText = findViewById(R.id.et_search)
         val searchTextInputLayout = findViewById<TextInputLayout>(R.id.til_search)
+        val btnUpdate = findViewById<Button>(R.id.btn_update)
+
+        btnUpdate.setOnClickListener {
+            setAllInvisible()
+            sendRequest()
+        }
 
         searchEditText.requestFocus()
         hideKeyboard(searchEditText)
         searchEditText.setOnEditorActionListener { _, actionId, _ ->
+            setAllInvisible()
             if (actionId == EditorInfo.IME_ACTION_DONE && searchEditText.text.isNotEmpty()) {
-                ApiFactory.apiService.search(searchEditText.text.toString())
-                    .enqueue(object : Callback<PlaylistResponse> {
-                        override fun onResponse(
-                            call: Call<PlaylistResponse>,
-                            response: Response<PlaylistResponse>
-                        ) {
-                            if (response.code() == 200) {
-                                val converter = Converter()
-                                response.body()?.results?.map { converter.dtoToEntity(it) }?.apply {
-                                    recyclerView.adapter = SearchAdapter(this)
-                                }
-                            }
-                            Log.d("TAG", "${response.body()}")
-                        }
-
-                        override fun onFailure(call: Call<PlaylistResponse>, t: Throwable) {
-                            Toast.makeText(
-                                this@SearchActivity,
-                                "${t.message}",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            Log.d("TAG", "${t.stackTrace}")
-                        }
-                    })
+                sendRequest()
                 true
-            } else false
+            } else
+                false
         }
 
         searchTextInputLayout.setEndIconOnClickListener {
             searchEditText.text.clear()
             hideKeyboard(searchEditText)
         }
+    }
 
+    private fun setViews() {
+        recyclerView = findViewById(R.id.searchRecyclerView)
+        searchEditText = findViewById(R.id.et_search)
+        linearLayoutUpdate = findViewById(R.id.ll_update)
+    }
 
+    /**
+    1хх — Information носит уведомительный характер и обычно не требует реакции.
+    2xx — Success сигнализирует об успешном завершении операции.
+    3хх — Redirection указывает на необходимость сделать запрос ресурса по другому адресу.
+    4xx — Client error показывает, что запрос не может быть выполнен и содержит ошибку на стороне клиента.
+    5хх — Server error показывает, что запрос не может быть выполнен и содержит ошибку на стороне сервера.
+     **/
+
+    private fun sendRequest() {
+        ApiFactory.apiService.search(searchEditText.text.toString())
+            .enqueue(object : Callback<PlaylistResponse> {
+                override fun onResponse(
+                    call: Call<PlaylistResponse>,
+                    response: Response<PlaylistResponse>
+                ) {
+                    when {
+                        response.code() in 200..299 -> {
+                            setListVisible(true)
+                            if (response.body()?.results?.size != 0) {
+                                val converter = Converter()
+                                response.body()
+                                    ?.results
+                                    ?.map { converter.dtoToEntity(it) }
+                                    ?.apply { recyclerView.adapter = SearchAdapter(this) }
+                            } else {
+                                showToast("Поиск не дал результатов")
+                            }
+
+                        }
+                        response.code() in 400..599 -> {
+                            setListVisible(false)
+                        }
+                    }
+                    Log.d("TAG", "${response.body()}")
+                }
+
+                override fun onFailure(call: Call<PlaylistResponse>, t: Throwable) {
+                    showToast(t.message)
+                    setListVisible(false)
+                    Log.d("TAG", "${t.stackTrace}")
+                }
+            })
+    }
+
+    private fun setAllInvisible() {
+        recyclerView.visibility = View.GONE
+        linearLayoutUpdate.visibility = View.GONE
+    }
+
+    private fun setListVisible(isListMode: Boolean) {
+        if (isListMode) {
+            recyclerView.visibility = View.VISIBLE
+        } else {
+            linearLayoutUpdate.visibility = View.VISIBLE
+        }
+    }
+
+    private fun showToast(message: String?) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun hideKeyboard(view: View) {

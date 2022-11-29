@@ -20,4 +20,5 @@
     <string name="album_title_and_track_time_template">%s • %s</string>
     <string name="artwork_content_description">Изображение альбома</string>
     <string name="go_to_track_content_description">Перейти к треку</string>
+    <string name="search_button_update">Обновить</string>
 </resources>
