@@ -81,9 +81,9 @@ class SearchActivity : AppCompatActivity() {
                     response: Response<PlaylistResponse>
                 ) {
                     when {
-                        response.code() in 200..299 -> {
+                        response.code() == 200 -> {
                             setListVisible(true)
-                            if (response.body()?.results?.size != 0) {
+                            if (response.body()?.resultsCount == 0) {
                                 val converter = Converter()
                                 response.body()
                                     ?.results
