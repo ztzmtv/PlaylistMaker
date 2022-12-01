@@ -11,6 +11,8 @@ import com.azmetov.playlistmaker.R
 import com.azmetov.playlistmaker.entities.Track
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import java.text.SimpleDateFormat
+import java.util.*
 
 class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
 
@@ -54,7 +56,12 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
                 .placeholder(R.drawable.album_placeholder)
                 .into(artwork)
             val template = view.context.getString(R.string.album_title_and_track_time_template)
-            artistNameAndTrackTime.text = String.format(template, track.artistName, track.trackTime)
+            artistNameAndTrackTime.text =
+                String.format(template, track.artistName, convertTime(track.trackTime ?: ""))
         }
+
+        private fun convertTime(trackime: String): String =
+            SimpleDateFormat("mm:ss", Locale.getDefault()).format(trackime.toLong())
+
     }
 }
