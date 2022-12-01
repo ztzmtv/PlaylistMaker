@@ -11,7 +11,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.azmetov.playlistmaker.R
@@ -26,16 +25,19 @@ import retrofit2.Response
 
 class SearchActivity : AppCompatActivity() {
     private lateinit var searchEditText: EditText
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var linearLayoutUpdate: LinearLayout
+    private lateinit var rvSearch: RecyclerView
+    private lateinit var llNetError: LinearLayout
+    private lateinit var llNothingFound: LinearLayout
+    private lateinit var searchAdapter: SearchAdapter
+    private lateinit var searchTextInputLayout: TextInputLayout
+    private lateinit var btnUpdate: Button
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         setViews()
-
-        val searchTextInputLayout = findViewById<TextInputLayout>(R.id.til_search)
-        val btnUpdate = findViewById<Button>(R.id.btn_update)
+        setAdapter()
 
         btnUpdate.setOnClickListener {
             setAllInvisible()
@@ -60,9 +62,17 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun setViews() {
-        recyclerView = findViewById(R.id.searchRecyclerView)
+        rvSearch = findViewById(R.id.searchRecyclerView)
         searchEditText = findViewById(R.id.et_search)
-        linearLayoutUpdate = findViewById(R.id.ll_update)
+        llNetError = findViewById(R.id.ll_update)
+        llNothingFound = findViewById(R.id.ll_nothing_found)
+        searchTextInputLayout = findViewById(R.id.til_search)
+        btnUpdate = findViewById(R.id.btn_update)
+    }
+
+    private fun setAdapter() {
+        searchAdapter = SearchAdapter()
+        rvSearch.adapter = searchAdapter
     }
 
     /**
@@ -82,48 +92,53 @@ class SearchActivity : AppCompatActivity() {
                 ) {
                     when {
                         response.code() == 200 -> {
-                            setListVisible(true)
-                            if (response.body()?.resultsCount == 0) {
+                            if (response.body()?.resultCount != 0) {
                                 val converter = Converter()
                                 response.body()
                                     ?.results
                                     ?.map { converter.dtoToEntity(it) }
-                                    ?.apply { recyclerView.adapter = SearchAdapter(this) }
+                                    ?.apply {
+                                        setScreen(SearchScreenState.Result(this))
+                                    }
                             } else {
-                                showToast("Поиск не дал результатов")
+                                setScreen(SearchScreenState.NothingFound)
                             }
 
                         }
                         response.code() in 400..599 -> {
-                            setListVisible(false)
+                            setScreen(SearchScreenState.NetworkError)
                         }
                     }
                     Log.d("TAG", "${response.body()}")
                 }
 
                 override fun onFailure(call: Call<PlaylistResponse>, t: Throwable) {
-                    showToast(t.message)
-                    setListVisible(false)
+                    setScreen(SearchScreenState.NetworkError)
                     Log.d("TAG", "${t.stackTrace}")
                 }
             })
     }
 
-    private fun setAllInvisible() {
-        recyclerView.visibility = View.GONE
-        linearLayoutUpdate.visibility = View.GONE
-    }
-
-    private fun setListVisible(isListMode: Boolean) {
-        if (isListMode) {
-            recyclerView.visibility = View.VISIBLE
-        } else {
-            linearLayoutUpdate.visibility = View.VISIBLE
+    private fun setScreen(state: SearchScreenState) {
+        setAllInvisible()
+        when (state) {
+            is SearchScreenState.Result -> {
+                rvSearch.visibility = View.VISIBLE
+                searchAdapter.setTrackList(state.list)
+            }
+            is SearchScreenState.NetworkError -> {
+                llNetError.visibility = View.VISIBLE
+            }
+            is SearchScreenState.NothingFound -> {
+                llNothingFound.visibility = View.VISIBLE
+            }
         }
     }
 
-    private fun showToast(message: String?) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    private fun setAllInvisible() {
+        rvSearch.visibility = View.GONE
+        llNetError.visibility = View.GONE
+        llNothingFound.visibility = View.GONE
     }
 
     private fun hideKeyboard(view: View) {

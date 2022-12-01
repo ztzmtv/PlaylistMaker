@@ -1,5 +1,6 @@
 package com.azmetov.playlistmaker.ui
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +12,15 @@ import com.azmetov.playlistmaker.entities.Track
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
-class SearchAdapter(
-    private val tracks: List<Track>
-) : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
+class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
 
+    private var tracks = listOf<Track>()
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun setTrackList(tracks: List<Track>) {
+        this.tracks = tracks
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         val view = LayoutInflater.from(parent.context)

@@ -21,4 +21,9 @@
     <string name="artwork_content_description">Изображение альбома</string>
     <string name="go_to_track_content_description">Перейти к треку</string>
     <string name="search_button_update">Обновить</string>
+    <string name="search_img_update_descr">Ничего не нашлось</string>
+    <string name="search_tv_update">Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
+    <string name="search_btn_update_text">Обновить</string>
+    <string name="search_img_notfound_descr">Ничего не нашлось</string>
+    <string name="search_tv_notfound_text">Ничего не нашлось</string>
 </resources>

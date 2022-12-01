@@ -9,7 +9,7 @@ interface PlaylistApi {
     @GET("search")
     fun search(
         @Query("term") text: String,
-        @Query("entity") type: String = ContentType.MUSIC.entity
+        @Query("entity") type: String = "song"
     ): Call<PlaylistResponse>
 
     enum class ContentType(val entity: String) {

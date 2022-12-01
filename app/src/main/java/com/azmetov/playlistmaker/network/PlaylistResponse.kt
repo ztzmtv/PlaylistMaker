@@ -26,8 +26,8 @@ import com.google.gson.annotations.SerializedName
 
 data class PlaylistResponse(
 
-    @SerializedName("resultsCount")
-    val resultsCount: Int,
+    @SerializedName("resultCount")
+    val resultCount: Int,
 
     @SerializedName("results")
     val results: List<TrackDTO>
