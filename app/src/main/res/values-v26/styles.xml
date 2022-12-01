@@ -23,7 +23,7 @@
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:layout_marginHorizontal">@dimen/settings_item_margin_horizontal</item>
         <item name="android:paddingVertical">@dimen/settings_item_padding_vertical</item>
-        <item name="android:textColor">@color/text_color_black_white</item>
+        <item name="android:textColor">@color/color_yp_black_white</item>
         <item name="android:fontFamily">@font/ys_display_regular</item>
 
     </style>
