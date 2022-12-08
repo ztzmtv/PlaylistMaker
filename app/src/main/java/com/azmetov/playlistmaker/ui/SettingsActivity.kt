@@ -6,7 +6,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.azmetov.playlistmaker.App
 import com.azmetov.playlistmaker.R
+import com.azmetov.playlistmaker.other.Constants.THEME_SWITCHER_KEY
+import com.azmetov.playlistmaker.other.Constants.THEME_SWITCHER_PREFERENCES
+import com.google.android.material.switchmaterial.SwitchMaterial
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -14,9 +18,22 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
+        val sharedPrefs = getSharedPreferences(THEME_SWITCHER_PREFERENCES, MODE_PRIVATE)
+
         val shareTextView = findViewById<TextView>(R.id.tv_share)
         val supportTextView = findViewById<TextView>(R.id.tv_support)
         val agreementTextView = findViewById<TextView>(R.id.tv_user_agreement)
+        val themeSwitcherView = findViewById<SwitchMaterial>(R.id.themeSwitcher)
+
+        val darkMode = sharedPrefs.getBoolean(THEME_SWITCHER_KEY, false)
+        themeSwitcherView.isChecked = darkMode
+
+        themeSwitcherView.setOnCheckedChangeListener { switcher, checked ->
+            (applicationContext as App).switchTheme(checked)
+            sharedPrefs.edit()
+                .putBoolean(THEME_SWITCHER_KEY, checked)
+                .apply()
+        }
 
         shareTextView.setOnClickListener {
             Intent().apply {
