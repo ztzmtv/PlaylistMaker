@@ -3,7 +3,6 @@ package com.azmetov.playlistmaker.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -14,16 +13,13 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.azmetov.playlistmaker.R
-import com.azmetov.playlistmaker.network.ApiFactory
-import com.azmetov.playlistmaker.network.PlaylistResponse
-import com.azmetov.playlistmaker.other.Converter
+import com.azmetov.playlistmaker.entities.Track
+import com.azmetov.playlistmaker.network.NetworkDispatcher
 import com.google.android.material.textfield.TextInputLayout
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class SearchActivity : AppCompatActivity() {
+
     private lateinit var searchEditText: EditText
     private lateinit var rvSearch: RecyclerView
     private lateinit var llNetError: LinearLayout
@@ -31,17 +27,25 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var searchAdapter: SearchAdapter
     private lateinit var searchTextInputLayout: TextInputLayout
     private lateinit var btnUpdate: Button
-
+    private lateinit var networkDispatcher: NetworkDispatcher
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
+
+        networkDispatcher = NetworkDispatcher()
+
         setViews()
         setAdapter()
+        setListeners()
+    }
 
+    private fun setListeners() {
         btnUpdate.setOnClickListener {
             setAllInvisible()
-            sendRequest()
+            networkDispatcher.sendRequest(searchEditText.text.toString()) {
+                setScreenState(it)
+            }
         }
 
         searchEditText.requestFocus()
@@ -49,7 +53,9 @@ class SearchActivity : AppCompatActivity() {
         searchEditText.setOnEditorActionListener { _, actionId, _ ->
             setAllInvisible()
             if (actionId == EditorInfo.IME_ACTION_DONE && searchEditText.text.isNotEmpty()) {
-                sendRequest()
+                networkDispatcher.sendRequest(searchEditText.text.toString()) {
+                    setScreenState(it)
+                }
                 true
             } else
                 false
@@ -75,61 +81,18 @@ class SearchActivity : AppCompatActivity() {
         rvSearch.adapter = searchAdapter
     }
 
-    /**
-    1хх — Information носит уведомительный характер и обычно не требует реакции.
-    2xx — Success сигнализирует об успешном завершении операции.
-    3хх — Redirection указывает на необходимость сделать запрос ресурса по другому адресу.
-    4xx — Client error показывает, что запрос не может быть выполнен и содержит ошибку на стороне клиента.
-    5хх — Server error показывает, что запрос не может быть выполнен и содержит ошибку на стороне сервера.
-     **/
-
-    private fun sendRequest() {
-        ApiFactory.apiService.search(searchEditText.text.toString())
-            .enqueue(object : Callback<PlaylistResponse> {
-                override fun onResponse(
-                    call: Call<PlaylistResponse>,
-                    response: Response<PlaylistResponse>
-                ) {
-                    when {
-                        response.code() == 200 -> {
-                            if (response.body()?.resultCount != 0) {
-                                val converter = Converter()
-                                response.body()
-                                    ?.results
-                                    ?.map { converter.dtoToEntity(it) }
-                                    ?.apply {
-                                        setScreen(SearchScreenState.Result(this))
-                                    }
-                            } else {
-                                setScreen(SearchScreenState.NothingFound)
-                            }
-
-                        }
-                        response.code() in 400..599 -> {
-                            setScreen(SearchScreenState.NetworkError)
-                        }
-                    }
-                    Log.d("TAG", "${response.body()}")
-                }
-
-                override fun onFailure(call: Call<PlaylistResponse>, t: Throwable) {
-                    setScreen(SearchScreenState.NetworkError)
-                    Log.d("TAG", "${t.stackTrace}")
-                }
-            })
-    }
-
-    private fun setScreen(state: SearchScreenState) {
+    @Suppress("UNCHECKED_CAST")
+    private fun setScreenState(state: NetworkState) {
         setAllInvisible()
         when (state) {
-            is SearchScreenState.Result -> {
+            is NetworkState.Result<*> -> {
                 rvSearch.visibility = View.VISIBLE
-                searchAdapter.setTrackList(state.list)
+                searchAdapter.setTrackList(state.result as List<Track>)
             }
-            is SearchScreenState.NetworkError -> {
+            is NetworkState.NetworkError -> {
                 llNetError.visibility = View.VISIBLE
             }
-            is SearchScreenState.NothingFound -> {
+            is NetworkState.NotFound -> {
                 llNothingFound.visibility = View.VISIBLE
             }
         }

@@ -10,6 +10,6 @@ interface PlaylistApi {
     fun search(
         @Query("term") text: String,
         @Query("entity") type: String = "song"
-    ): Call<PlaylistResponse>
+    ): Call<PlaylistResponseDto>
 
 }
