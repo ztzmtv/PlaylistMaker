@@ -17,11 +17,16 @@ import java.util.*
 class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
 
     private var tracks = listOf<Track>()
+    private var trackClickListener: ((Track) -> Unit)? = null
 
     @SuppressLint("NotifyDataSetChanged")
     fun setTrackList(tracks: List<Track>) {
         this.tracks = tracks
         notifyDataSetChanged()
+    }
+
+    fun setTrackClickListener(callback: ((Track) -> Unit)?) {
+        trackClickListener = callback
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
@@ -32,6 +37,10 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
         holder.bind(tracks[position])
+        holder.itemView.setOnClickListener {
+            val track = tracks[position]
+            trackClickListener?.invoke(track)
+        }
     }
 
     override fun getItemCount(): Int {

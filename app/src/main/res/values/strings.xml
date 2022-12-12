@@ -26,4 +26,5 @@
     <string name="search_btn_update_text">Обновить</string>
     <string name="search_img_notfound_descr">Ничего не нашлось</string>
     <string name="search_tv_notfound_text">Ничего не нашлось</string>
+    <string name="search_btn_clear_history">Очистить историю</string>
 </resources>

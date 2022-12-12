@@ -1,11 +1,11 @@
 package com.azmetov.playlistmaker.other
 
 import com.azmetov.playlistmaker.entities.Track
-import com.azmetov.playlistmaker.network.TrackDTO
+import com.azmetov.playlistmaker.network.TrackDto
 
 class Converter {
 
-    fun dtoToEntity(dto: TrackDTO?) = Track(
+    fun dtoToEntity(dto: TrackDto?) = Track(
         trackName = dto?.trackName,
         artistName = dto?.artistName,
         trackTime = dto?.trackTimeMillis.toString(),
