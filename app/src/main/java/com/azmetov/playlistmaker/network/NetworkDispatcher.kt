@@ -2,7 +2,7 @@ package com.azmetov.playlistmaker.network
 
 import android.util.Log
 import com.azmetov.playlistmaker.other.Converter
-import com.azmetov.playlistmaker.ui.NetworkState
+import com.azmetov.playlistmaker.ui.SearchScreenState
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,7 +19,7 @@ class NetworkDispatcher {
 
     fun sendRequest(
         requestText: String,
-        resultCallback: ((NetworkState) -> Unit)
+        resultCallback: ((SearchScreenState) -> Unit)
     ) {
         ApiFactory.apiService.search(requestText).enqueue(
             object : Callback<PlaylistResponseDto> {
@@ -35,22 +35,22 @@ class NetworkDispatcher {
                                     ?.results
                                     ?.map { converter.dtoToEntity(it) }
                                     ?.apply {
-                                        resultCallback.invoke(NetworkState.Result(this))
+                                        resultCallback.invoke(SearchScreenState.Result(this))
                                     }
                             } else {
-                                resultCallback.invoke(NetworkState.NotFound)
+                                resultCallback.invoke(SearchScreenState.NotFound)
                             }
 
                         }
                         response.code() in 400..599 -> {
-                            resultCallback.invoke(NetworkState.NetworkError)
+                            resultCallback.invoke(SearchScreenState.SearchError)
                         }
                     }
                     Log.d("TAG", "${response.body()}")
                 }
 
                 override fun onFailure(call: Call<PlaylistResponseDto>, t: Throwable) {
-                    resultCallback.invoke(NetworkState.NetworkError)
+                    resultCallback.invoke(SearchScreenState.SearchError)
                     Log.d("TAG", "${t.stackTrace}")
                 }
             })

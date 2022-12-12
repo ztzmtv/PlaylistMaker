@@ -15,29 +15,42 @@ import androidx.recyclerview.widget.RecyclerView
 import com.azmetov.playlistmaker.R
 import com.azmetov.playlistmaker.entities.Track
 import com.azmetov.playlistmaker.network.NetworkDispatcher
+import com.azmetov.playlistmaker.other.Constants.SEARCH_TRACKS_PREFS
+import com.azmetov.playlistmaker.shared.SharedStore
 import com.google.android.material.textfield.TextInputLayout
 
 
 class SearchActivity : AppCompatActivity() {
 
-    private lateinit var searchEditText: EditText
-    private lateinit var rvSearch: RecyclerView
     private lateinit var llNetError: LinearLayout
+    private lateinit var llHistory: LinearLayout
     private lateinit var llNothingFound: LinearLayout
-    private lateinit var searchAdapter: SearchAdapter
-    private lateinit var searchTextInputLayout: TextInputLayout
+
+    private lateinit var rvSearch: RecyclerView
+    private lateinit var rvHistory: RecyclerView
     private lateinit var btnUpdate: Button
+    private lateinit var searchAdapter: SearchAdapter
+    private lateinit var searchEditText: EditText
+    private lateinit var btnClearHistory: Button
+    private lateinit var searchTextInputLayout: TextInputLayout
+
     private lateinit var networkDispatcher: NetworkDispatcher
+    private lateinit var sharedStore: SharedStore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
-        networkDispatcher = NetworkDispatcher()
-
+        initObjects()
         setViews()
-        setAdapter()
         setListeners()
+    }
+
+    private fun initObjects() {
+        val sharedPreferences = getSharedPreferences(SEARCH_TRACKS_PREFS, MODE_PRIVATE)
+        sharedStore = SharedStore(sharedPreferences)
+        networkDispatcher = NetworkDispatcher()
+        searchAdapter = SearchAdapter()
     }
 
     private fun setListeners() {
@@ -48,8 +61,12 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
-        searchEditText.requestFocus()
-        hideKeyboard(searchEditText)
+        btnClearHistory.setOnClickListener {
+            sharedStore.clearList()
+            val emptyList = mutableListOf<Track>()
+            setScreenState(SearchScreenState.History(emptyList))
+        }
+
         searchEditText.setOnEditorActionListener { _, actionId, _ ->
             setAllInvisible()
             if (actionId == EditorInfo.IME_ACTION_DONE && searchEditText.text.isNotEmpty()) {
@@ -61,45 +78,68 @@ class SearchActivity : AppCompatActivity() {
                 false
         }
 
+        searchEditText.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                val list = sharedStore.getTracks()
+                list?.let {
+                    setScreenState(SearchScreenState.History(it))
+                }
+            }
+        }
+        searchEditText.requestFocus()
+        hideKeyboard(searchEditText)
+
         searchTextInputLayout.setEndIconOnClickListener {
             searchEditText.text.clear()
             hideKeyboard(searchEditText)
         }
+
     }
 
     private fun setViews() {
-        rvSearch = findViewById(R.id.searchRecyclerView)
-        searchEditText = findViewById(R.id.et_search)
+        llHistory = findViewById(R.id.ll_history)
         llNetError = findViewById(R.id.ll_update)
         llNothingFound = findViewById(R.id.ll_nothing_found)
-        searchTextInputLayout = findViewById(R.id.til_search)
-        btnUpdate = findViewById(R.id.btn_update)
-    }
 
-    private fun setAdapter() {
-        searchAdapter = SearchAdapter()
-        rvSearch.adapter = searchAdapter
+        rvSearch = findViewById(R.id.searchRecyclerView)
+        rvHistory = findViewById(R.id.historyRecyclerView)
+
+        btnUpdate = findViewById(R.id.btn_update)
+        btnClearHistory = findViewById(R.id.btn_clear_history)
+        searchEditText = findViewById(R.id.et_search)
+        searchTextInputLayout = findViewById(R.id.til_search)
     }
 
     @Suppress("UNCHECKED_CAST")
-    private fun setScreenState(state: NetworkState) {
+    private fun setScreenState(state: SearchScreenState) {
         setAllInvisible()
         when (state) {
-            is NetworkState.Result<*> -> {
+            is SearchScreenState.Result -> {
                 rvSearch.visibility = View.VISIBLE
-                searchAdapter.setTrackList(state.result as List<Track>)
+                searchAdapter.setTrackList(state.result)
+                searchAdapter.setTrackClickListener {
+                    sharedStore.addTrack(it)
+                }
+                rvSearch.adapter = searchAdapter
             }
-            is NetworkState.NetworkError -> {
+            is SearchScreenState.SearchError -> {
                 llNetError.visibility = View.VISIBLE
             }
-            is NetworkState.NotFound -> {
+            is SearchScreenState.NotFound -> {
                 llNothingFound.visibility = View.VISIBLE
+            }
+            is SearchScreenState.History -> {
+                llHistory.visibility = View.VISIBLE
+                searchAdapter.setTrackList(state.list)
+                searchAdapter.setTrackClickListener(null)
+                rvHistory.adapter = searchAdapter
             }
         }
     }
 
     private fun setAllInvisible() {
         rvSearch.visibility = View.GONE
+        llHistory.visibility = View.GONE
         llNetError.visibility = View.GONE
         llNothingFound.visibility = View.GONE
     }

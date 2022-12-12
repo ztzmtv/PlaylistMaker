@@ -8,7 +8,7 @@ data class PlaylistResponseDto(
     val resultCount: Int,
 
     @SerializedName("results")
-    val results: List<TrackDTO>
+    val results: List<TrackDto>
 )
 
 

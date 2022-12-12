@@ -3,7 +3,7 @@ package com.azmetov.playlistmaker.network
 import com.google.gson.annotations.SerializedName
 
 
-data class TrackDTO(
+data class TrackDto(
 
     @SerializedName("trackTimeMillis")
     val trackTimeMillis: Int? = null,
