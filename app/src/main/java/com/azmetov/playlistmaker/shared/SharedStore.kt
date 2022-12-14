@@ -24,11 +24,13 @@ class SharedStore(
 
     fun getTracks(): List<Track>? {
         val json = sharedPrefs.getString(TRACKS_HISTORY_KEY, null) ?: return null
-        return Gson().fromJson(json, Array<Track>::class.java).reversed().toList()
+        trackList = Gson().fromJson(json, Array<Track>::class.java).toMutableList()
+        return trackList.reversed()
     }
 
     fun clearList() {
         trackList.clear()
+        sharedPrefs.edit().clear().apply()
     }
 
     private fun cropList() {

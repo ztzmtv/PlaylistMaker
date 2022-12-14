@@ -3,7 +3,7 @@ package com.azmetov.playlistmaker.other
 import com.azmetov.playlistmaker.entities.Track
 import com.azmetov.playlistmaker.network.TrackDto
 
-class Converter {
+object Converter {
 
     fun dtoToEntity(dto: TrackDto?) = Track(
         trackName = dto?.trackName,

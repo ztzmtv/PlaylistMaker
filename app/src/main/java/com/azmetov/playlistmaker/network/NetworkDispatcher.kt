@@ -30,10 +30,9 @@ class NetworkDispatcher {
                     when {
                         response.code() == 200 -> {
                             if (response.body()?.resultCount != 0) {
-                                val converter = Converter()
                                 response.body()
                                     ?.results
-                                    ?.map { converter.dtoToEntity(it) }
+                                    ?.map { Converter.dtoToEntity(it) }
                                     ?.apply {
                                         resultCallback.invoke(SearchScreenState.Result(this))
                                     }
