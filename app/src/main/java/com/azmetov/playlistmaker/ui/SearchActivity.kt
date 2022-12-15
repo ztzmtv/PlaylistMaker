@@ -29,7 +29,8 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var rvSearch: RecyclerView
     private lateinit var rvHistory: RecyclerView
     private lateinit var btnUpdate: Button
-    private lateinit var searchAdapter: SearchAdapter
+    private lateinit var resultAdapter: SearchAdapter
+    private lateinit var historyAdapter: SearchAdapter
     private lateinit var searchEditText: EditText
     private lateinit var btnClearHistory: Button
     private lateinit var searchTextInputLayout: TextInputLayout
@@ -42,18 +43,24 @@ class SearchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_search)
 
         initObjects()
-        setViews()
-        setListeners()
+        setupViews()
+        setupAdapters()
+        setupListeners()
     }
 
     private fun initObjects() {
         val sharedPreferences = getSharedPreferences(SEARCH_TRACKS_PREFS, MODE_PRIVATE)
         sharedStore = SharedStore(sharedPreferences)
         networkDispatcher = NetworkDispatcher()
-        searchAdapter = SearchAdapter()
+        resultAdapter = SearchAdapter()
+        historyAdapter = SearchAdapter()
     }
 
-    private fun setListeners() {
+    private fun setupAdapters(){
+        rvSearch.adapter = resultAdapter
+        rvHistory.adapter = historyAdapter
+    }
+    private fun setupListeners() {
         btnUpdate.setOnClickListener {
             setAllInvisible()
             networkDispatcher.sendRequest(searchEditText.text.toString()) {
@@ -96,7 +103,7 @@ class SearchActivity : AppCompatActivity() {
 
     }
 
-    private fun setViews() {
+    private fun setupViews() {
         llHistory = findViewById(R.id.ll_history)
         llNetError = findViewById(R.id.ll_update)
         llNothingFound = findViewById(R.id.ll_nothing_found)
@@ -116,11 +123,10 @@ class SearchActivity : AppCompatActivity() {
         when (state) {
             is SearchScreenState.Result -> {
                 rvSearch.visibility = View.VISIBLE
-                searchAdapter.setTrackList(state.result)
-                searchAdapter.setTrackClickListener {
+                resultAdapter.setTrackList(state.result)
+                resultAdapter.setTrackClickListener {
                     sharedStore.addTrack(it)
                 }
-                rvSearch.adapter = searchAdapter
             }
             is SearchScreenState.SearchError -> {
                 llNetError.visibility = View.VISIBLE
@@ -130,9 +136,8 @@ class SearchActivity : AppCompatActivity() {
             }
             is SearchScreenState.History -> {
                 llHistory.visibility = View.VISIBLE
-                searchAdapter.setTrackList(state.list)
-                searchAdapter.setTrackClickListener(null)
-                rvHistory.adapter = searchAdapter
+                historyAdapter.setTrackList(state.list)
+                historyAdapter.setTrackClickListener(null)
             }
         }
     }
