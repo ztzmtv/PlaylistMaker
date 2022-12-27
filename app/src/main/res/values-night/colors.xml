@@ -4,6 +4,7 @@
     <color name="ic_color_active">@color/white</color>
     <color name="color_yp_black_white">@color/white</color>
     <color name="color_yp_white_black">@color/yp_black</color>
+    <color name="color_yp_shades_of_grey">#40000000</color>
     <color name="primary">#1A1B22</color>
     <color name="gray_white">@color/yp_white</color>
     <color name="edit_text_background">@color/white</color>
