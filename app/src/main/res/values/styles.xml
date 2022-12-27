@@ -38,7 +38,7 @@
     <style name="PlayerBottomLeftText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/yp_text_gray</item>
+        <item name="android:textColor">@color/color_yp_shades_of_grey_inv</item>
         <item name="android:textSize">13sp</item>
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_marginBottom">8dp</item>
