@@ -102,6 +102,7 @@ class SearchActivity : AppCompatActivity() {
             hideKeyboard(searchEditText)
         }
 
+
     }
 
     private fun setupViews() {
@@ -125,8 +126,11 @@ class SearchActivity : AppCompatActivity() {
             is SearchScreenState.Result -> {
                 rvSearch.visibility = View.VISIBLE
                 resultAdapter.setTrackList(state.result)
-                resultAdapter.setTrackClickListener {
-                    sharedStore.addTrack(it)
+                resultAdapter.setTrackClickListener { track ->
+                    sharedStore.addTrack(track)
+                    PlayerActivity.getIntent(this, track).apply {
+                        startActivity(this)
+                    }
                 }
             }
             is SearchScreenState.SearchError -> {
