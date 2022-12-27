@@ -56,10 +56,11 @@ class SearchActivity : AppCompatActivity() {
         historyAdapter = SearchAdapter()
     }
 
-    private fun setupAdapters(){
+    private fun setupAdapters() {
         rvSearch.adapter = resultAdapter
         rvHistory.adapter = historyAdapter
     }
+
     private fun setupListeners() {
         btnUpdate.setOnClickListener {
             setAllInvisible()
