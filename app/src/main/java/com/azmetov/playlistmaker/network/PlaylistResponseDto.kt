@@ -23,5 +23,18 @@ data class TrackDto(
     val artistName: String? = null,
 
     @SerializedName("trackName")
-    val trackName: String? = null
+    val trackName: String? = null,
+
+    @SerializedName("collectionName")
+    val collectionName: String? = null,
+
+    @SerializedName("releaseDate")
+    val releaseDate: String? = null,
+
+    @SerializedName("primaryGenreName")
+    val genre: String? = null,
+
+    @SerializedName("country")
+    val country: String? = null,
+
 )

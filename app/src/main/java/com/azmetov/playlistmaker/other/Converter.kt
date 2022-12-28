@@ -9,7 +9,11 @@ object Converter {
         trackName = dto?.trackName,
         artistName = dto?.artistName,
         trackTime = dto?.trackTimeMillis.toString(),
-        artworkUrl100 = dto?.artworkUrl100
+        artworkUrl100 = dto?.artworkUrl100,
+        collectionName = dto?.collectionName,
+        releaseDate = dto?.releaseDate,//TODO()
+        genre = dto?.genre,
+        country = dto?.country,
     )
 
 }
