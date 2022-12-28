@@ -8,7 +8,7 @@
     android:paddingEnd="20dp">
 
     <ImageView
-        android:id="@+id/iv_artwork"
+        android:id="@+id/iv_item_artwork"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_margin="8dp"

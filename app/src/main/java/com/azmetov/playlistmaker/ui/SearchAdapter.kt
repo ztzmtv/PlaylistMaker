@@ -9,9 +9,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.azmetov.playlistmaker.R
 import com.azmetov.playlistmaker.entities.Track
+import com.azmetov.playlistmaker.other.Converter.convertTime
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import java.text.SimpleDateFormat
 import java.util.*
 
 class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
@@ -50,7 +50,7 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
     class SearchViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
         private val artwork: ImageView =
-            view.findViewById(R.id.iv_artwork)
+            view.findViewById(R.id.iv_item_artwork)
         private val artistNameAndTrackTime: TextView =
             view.findViewById(R.id.tv_artist_name_and_track_time)
         private val trackName: TextView =
@@ -61,16 +61,12 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
             Glide.with(view.context)
                 .load(track.artworkUrl100)
                 .centerCrop()
-                .transform(RoundedCorners(2))
+                .transform(RoundedCorners(8))
                 .placeholder(R.drawable.album_placeholder)
                 .into(artwork)
             val template = view.context.getString(R.string.album_title_and_track_time_template)
             artistNameAndTrackTime.text =
-                String.format(template, track.artistName, convertTime(track.trackTime ?: ""))
+                String.format(template, track.artistName, convertTime(track.trackTime))
         }
-
-        private fun convertTime(trackime: String): String =
-            SimpleDateFormat("mm:ss", Locale.getDefault()).format(trackime.toLong())
-
     }
 }
