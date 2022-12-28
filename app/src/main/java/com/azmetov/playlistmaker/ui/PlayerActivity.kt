@@ -3,6 +3,7 @@ package com.azmetov.playlistmaker.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.azmetov.playlistmaker.R
@@ -14,6 +15,10 @@ class PlayerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
 
+        val arrowBack = findViewById<ImageView>(R.id.iv_player_arrow_back)
+        arrowBack.setOnClickListener {
+            finish()
+        }
         //Пока не понял, чем это заменить
         val track = intent.extras?.getSerializable(EXTRA_TRACK) as Track
         Toast.makeText(this, "$track", Toast.LENGTH_SHORT).show()
