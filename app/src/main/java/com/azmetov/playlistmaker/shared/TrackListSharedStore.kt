@@ -7,12 +7,12 @@ import com.azmetov.playlistmaker.other.Constants.COUNT_OF_TRACKS
 import com.azmetov.playlistmaker.other.Constants.TRACKS_HISTORY_KEY
 import com.google.gson.Gson
 
-class SharedStore(
+class TrackListSharedStore(
     private val sharedPrefs: SharedPreferences
 ) {
     private var trackList = mutableListOf<Track>()
 
-    fun addTrack(track: Track) {
+    fun addTrackToList(track: Track) {
         if (trackList.contains(track)) {
             trackList.remove(track)
         }
@@ -22,7 +22,7 @@ class SharedStore(
         sharedPrefs.edit().putString(TRACKS_HISTORY_KEY, json).apply()
     }
 
-    fun getTracks(): List<Track>? {
+    fun getTrackList(): List<Track>? {
         val json = sharedPrefs.getString(TRACKS_HISTORY_KEY, null) ?: return null
         trackList = Gson().fromJson(json, Array<Track>::class.java).toMutableList()
         return trackList.reversed()

@@ -13,7 +13,7 @@ import com.azmetov.playlistmaker.R
 import com.azmetov.playlistmaker.entities.Track
 import com.azmetov.playlistmaker.network.NetworkDispatcher
 import com.azmetov.playlistmaker.other.Constants.SEARCH_TRACKS_PREFS
-import com.azmetov.playlistmaker.shared.SharedStore
+import com.azmetov.playlistmaker.shared.TrackListSharedStore
 import com.google.android.material.textfield.TextInputLayout
 
 
@@ -33,7 +33,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var searchTextInputLayout: TextInputLayout
 
     private lateinit var networkDispatcher: NetworkDispatcher
-    private lateinit var sharedStore: SharedStore
+    private lateinit var trackListSharedStore: TrackListSharedStore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +47,7 @@ class SearchActivity : AppCompatActivity() {
 
     private fun initObjects() {
         val sharedPreferences = getSharedPreferences(SEARCH_TRACKS_PREFS, MODE_PRIVATE)
-        sharedStore = SharedStore(sharedPreferences)
+        trackListSharedStore = TrackListSharedStore(sharedPreferences)
         networkDispatcher = NetworkDispatcher()
         resultAdapter = SearchAdapter()
         historyAdapter = SearchAdapter()
@@ -67,11 +67,11 @@ class SearchActivity : AppCompatActivity() {
         }
         val arrowBack = findViewById<TextView>(R.id.tv_search_label)
         arrowBack.setOnClickListener {
-            finish()
+            onBackPressedDispatcher.onBackPressed()
         }
 
         btnClearHistory.setOnClickListener {
-            sharedStore.clearList()
+            trackListSharedStore.clearList()
             val emptyList = mutableListOf<Track>()
             setScreenState(SearchScreenState.History(emptyList))
         }
@@ -89,7 +89,7 @@ class SearchActivity : AppCompatActivity() {
 
         searchEditText.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
-                val list = sharedStore.getTracks()
+                val list = trackListSharedStore.getTrackList()
                 list?.let {
                     setScreenState(SearchScreenState.History(it))
                 }
@@ -128,7 +128,7 @@ class SearchActivity : AppCompatActivity() {
                 rvSearch.visibility = View.VISIBLE
                 resultAdapter.setTrackList(state.result)
                 resultAdapter.setTrackClickListener { track ->
-                    sharedStore.addTrack(track)
+                    trackListSharedStore.addTrackToList(track)
                     PlayerActivity.getIntent(this, track).apply {
                         startActivity(this)
                     }
