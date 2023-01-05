@@ -6,10 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.azmetov.playlistmaker.R
@@ -67,6 +64,10 @@ class SearchActivity : AppCompatActivity() {
             networkDispatcher.sendRequest(searchEditText.text.toString()) {
                 setScreenState(it)
             }
+        }
+        val arrowBack = findViewById<TextView>(R.id.tv_search_label)
+        arrowBack.setOnClickListener {
+            finish()
         }
 
         btnClearHistory.setOnClickListener {
