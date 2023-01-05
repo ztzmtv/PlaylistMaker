@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:backgroundTint="@color/color_yp_white_black"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:backgroundTint="@color/color_yp_white_black">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/top_guideline"
@@ -50,12 +50,19 @@
         android:layout_marginTop="46dp"
         android:layout_marginBottom="12dp"
         app:cornerRadius="8dp"
+        app:layout_constraintBottom_toTopOf="@id/player_middle_gl"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
         app:layout_constraintTop_toTopOf="@id/top_guideline"
         tools:src="@drawable/album_placeholder_with_padding" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/player_middle_gl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
 
     <TextView
         android:id="@+id/player_track_name_tv"
@@ -66,7 +73,7 @@
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
-        app:layout_constraintTop_toBottomOf="@id/player_artwork_iv"
+        app:layout_constraintTop_toBottomOf="@id/player_middle_gl"
         tools:text="Yesterday (Remastered 2009)" />
 
     <TextView
@@ -84,7 +91,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_add_favorites"
-        app:layout_constraintBottom_toTopOf="@id/label_duration"
+        app:layout_constraintBottom_toTopOf="@id/player_middle_bottom_gl"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
         app:layout_constraintTop_toBottomOf="@id/player_artist_name_tv" />
 
@@ -93,17 +100,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_play"
-        app:layout_constraintBottom_toTopOf="@id/label_duration"
+        app:layout_constraintBottom_toTopOf="@id/player_middle_bottom_gl"
         app:layout_constraintEnd_toStartOf="@id/player_like_iv"
         app:layout_constraintStart_toEndOf="@id/player_favorites_iv"
         app:layout_constraintTop_toBottomOf="@id/player_artist_name_tv" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/player_middle_bottom_gl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.75" />
 
     <ImageView
         android:id="@+id/player_like_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_like"
-        app:layout_constraintBottom_toTopOf="@id/label_duration"
+        app:layout_constraintBottom_toTopOf="@id/player_middle_bottom_gl"
         app:layout_constraintEnd_toStartOf="@id/right_guideline"
         app:layout_constraintTop_toBottomOf="@id/player_artist_name_tv" />
 
@@ -121,13 +135,15 @@
         style="@style/PlayerBottomLeftText"
         android:text="Длительность"
         app:layout_constraintBottom_toTopOf="@id/label_album"
-        app:layout_constraintStart_toStartOf="@id/left_guideline" />
+        app:layout_constraintStart_toStartOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/player_middle_bottom_gl" />
 
     <TextView
         android:id="@+id/player_duration_tv"
         style="@style/PlayerBottomRightText"
         app:layout_constraintBottom_toTopOf="@id/label_album"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
+        app:layout_constraintTop_toBottomOf="@id/player_middle_bottom_gl"
         tools:text="5:35" />
 
     <TextView
@@ -135,13 +151,15 @@
         style="@style/PlayerBottomLeftText"
         android:text="Альбом"
         app:layout_constraintBottom_toTopOf="@id/label_year"
-        app:layout_constraintStart_toStartOf="@id/left_guideline" />
+        app:layout_constraintStart_toStartOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/label_duration" />
 
     <TextView
         android:id="@+id/player_album_tv"
         style="@style/PlayerBottomRightText"
         app:layout_constraintBottom_toTopOf="@id/label_year"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
+        app:layout_constraintTop_toBottomOf="@id/label_duration"
         tools:text="Yesterday (Remastered 2009)" />
 
     <TextView
@@ -149,13 +167,15 @@
         style="@style/PlayerBottomLeftText"
         android:text="Год"
         app:layout_constraintBottom_toTopOf="@id/label_genre"
-        app:layout_constraintStart_toStartOf="@id/left_guideline" />
+        app:layout_constraintStart_toStartOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/label_album" />
 
     <TextView
         android:id="@+id/player_year_tv"
         style="@style/PlayerBottomRightText"
         app:layout_constraintBottom_toTopOf="@id/label_genre"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
+        app:layout_constraintTop_toBottomOf="@id/label_album"
         tools:text="1965" />
 
     <TextView
@@ -163,13 +183,15 @@
         style="@style/PlayerBottomLeftText"
         android:text="Жанр"
         app:layout_constraintBottom_toTopOf="@id/label_country"
-        app:layout_constraintStart_toStartOf="@id/left_guideline" />
+        app:layout_constraintStart_toStartOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/label_year" />
 
     <TextView
         android:id="@+id/player_genre_tv"
         style="@style/PlayerBottomRightText"
         app:layout_constraintBottom_toTopOf="@id/label_country"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
+        app:layout_constraintTop_toBottomOf="@id/label_year"
         tools:text="Rock" />
 
     <TextView
