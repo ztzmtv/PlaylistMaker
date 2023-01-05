@@ -142,7 +142,11 @@ class SearchActivity : AppCompatActivity() {
             is SearchScreenState.History -> {
                 llHistory.visibility = View.VISIBLE
                 historyAdapter.setTrackList(state.list)
-                historyAdapter.setTrackClickListener(null)
+                historyAdapter.setTrackClickListener { track ->
+                    PlayerActivity.getIntent(this, track).apply {
+                        startActivity(this)
+                    }
+                }
             }
         }
     }
