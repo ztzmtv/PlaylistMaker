@@ -26,8 +26,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var rvSearch: RecyclerView
     private lateinit var rvHistory: RecyclerView
     private lateinit var btnUpdate: Button
-    private lateinit var resultAdapter: SearchAdapter
-    private lateinit var historyAdapter: SearchAdapter
+    private lateinit var searchAdapter: SearchAdapter
     private lateinit var searchEditText: EditText
     private lateinit var btnClearHistory: Button
     private lateinit var searchTextInputLayout: TextInputLayout
@@ -48,13 +47,12 @@ class SearchActivity : AppCompatActivity() {
     private fun initObjects() {
         trackListSharedStore = App.instance.trackSharedStore
         networkDispatcher = App.instance.networkDispatcher
-        resultAdapter = SearchAdapter()
-        historyAdapter = SearchAdapter()
+        searchAdapter = App.instance.searchAdapter
     }
 
     private fun setupAdapters() {
-        rvSearch.adapter = resultAdapter
-        rvHistory.adapter = historyAdapter
+        rvSearch.adapter = searchAdapter
+        rvHistory.adapter = searchAdapter
     }
 
     private fun setupListeners() {
@@ -123,8 +121,8 @@ class SearchActivity : AppCompatActivity() {
         when (state) {
             is SearchScreenState.Result -> {
                 rvSearch.visibility = View.VISIBLE
-                resultAdapter.setTrackList(state.result)
-                resultAdapter.setTrackClickListener { track ->
+                searchAdapter.setTrackList(state.result)
+                searchAdapter.setTrackClickListener { track ->
                     trackListSharedStore.addTrackToList(track)
                     PlayerActivity.getIntent(this, track).apply {
                         startActivity(this)
@@ -139,8 +137,8 @@ class SearchActivity : AppCompatActivity() {
             }
             is SearchScreenState.History -> {
                 llHistory.visibility = View.VISIBLE
-                historyAdapter.setTrackList(state.list)
-                historyAdapter.setTrackClickListener { track ->
+                searchAdapter.setTrackList(state.list)
+                searchAdapter.setTrackClickListener { track ->
                     PlayerActivity.getIntent(this, track).apply {
                         startActivity(this)
                     }

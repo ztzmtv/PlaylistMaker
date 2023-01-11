@@ -8,14 +8,11 @@ import com.azmetov.playlistmaker.data.shared.TrackListSharedStore
 import com.azmetov.playlistmaker.other.Constants
 import com.azmetov.playlistmaker.other.Constants.THEME_SWITCHER_KEY
 import com.azmetov.playlistmaker.other.Constants.THEME_SWITCHER_PREFERENCES
+import com.azmetov.playlistmaker.ui.SearchAdapter
 import com.google.gson.Gson
 
 class App : Application() {
 
-    private var darkTheme = false
-
-    lateinit var gson: Gson
-        private set
 
     lateinit var singleTrackSharedStore: SingleTrackSharedStore
         private set
@@ -26,28 +23,31 @@ class App : Application() {
     lateinit var networkDispatcher: NetworkDispatcher
         private set
 
+    lateinit var searchAdapter: SearchAdapter
+        private set
+
+    private lateinit var gson: Gson
+    private var darkTheme = false
 
     override fun onCreate() {
         super.onCreate()
 
         instance = this
+
+        createObjects()
+        switchTheme(darkTheme)
+    }
+
+    private fun createObjects() {
         gson = Gson()
         networkDispatcher = NetworkDispatcher()
-
-        getSharedPreferences(Constants.PLAYER_SHARED_PREFS, MODE_PRIVATE)
-            .apply {
-                singleTrackSharedStore = SingleTrackSharedStore(this, gson)
-            }
-        getSharedPreferences(Constants.SEARCH_TRACKS_PREFS, MODE_PRIVATE)
-            .apply {
-                trackSharedStore = TrackListSharedStore(this, gson)
-            }
-        getSharedPreferences(THEME_SWITCHER_PREFERENCES, MODE_PRIVATE)
-            .apply {
-                darkTheme = this.getBoolean(THEME_SWITCHER_KEY, false)
-            }
-
-        switchTheme(darkTheme)
+        searchAdapter = SearchAdapter()
+        val playerPrefs = getSharedPreferences(Constants.PLAYER_SHARED_PREFS, MODE_PRIVATE)
+        singleTrackSharedStore = SingleTrackSharedStore(playerPrefs, gson)
+        val searchPrefs = getSharedPreferences(Constants.SEARCH_TRACKS_PREFS, MODE_PRIVATE)
+        trackSharedStore = TrackListSharedStore(searchPrefs, gson)
+        val themePrefs = getSharedPreferences(THEME_SWITCHER_PREFERENCES, MODE_PRIVATE)
+        darkTheme = themePrefs.getBoolean(THEME_SWITCHER_KEY, false)
 
     }
 
