@@ -1,4 +1,4 @@
-package com.azmetov.playlistmaker.entities
+package com.azmetov.playlistmaker.data.entities
 
 import java.io.Serializable
 

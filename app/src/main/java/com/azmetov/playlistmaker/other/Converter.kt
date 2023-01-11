@@ -1,7 +1,7 @@
 package com.azmetov.playlistmaker.other
 
-import com.azmetov.playlistmaker.entities.Track
-import com.azmetov.playlistmaker.network.TrackDto
+import com.azmetov.playlistmaker.data.entities.Track
+import com.azmetov.playlistmaker.data.network.TrackDto
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter

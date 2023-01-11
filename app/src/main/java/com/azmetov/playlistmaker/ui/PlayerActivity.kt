@@ -7,11 +7,12 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.azmetov.playlistmaker.App
 import com.azmetov.playlistmaker.R
-import com.azmetov.playlistmaker.entities.Track
+import com.azmetov.playlistmaker.data.entities.Track
 import com.azmetov.playlistmaker.other.Constants.PLAYER_SHARED_PREFS
 import com.azmetov.playlistmaker.other.Converter.convertTime
-import com.azmetov.playlistmaker.shared.SingleTrackSharedStore
+import com.azmetov.playlistmaker.data.shared.SingleTrackSharedStore
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
@@ -34,8 +35,7 @@ class PlayerActivity : AppCompatActivity() {
         arrowBack.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
-        val singleTrackSharedStore =
-            SingleTrackSharedStore(getSharedPreferences(PLAYER_SHARED_PREFS, MODE_PRIVATE))
+        val singleTrackSharedStore = App.instance.singleTrackSharedStore
 
         @Suppress("DEPRECATION")
         val track =

@@ -1,4 +1,4 @@
-package com.azmetov.playlistmaker.network
+package com.azmetov.playlistmaker.data.network
 
 import android.util.Log
 import com.azmetov.playlistmaker.other.Converter

@@ -1,4 +1,4 @@
-package com.azmetov.playlistmaker.network
+package com.azmetov.playlistmaker.data.network
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

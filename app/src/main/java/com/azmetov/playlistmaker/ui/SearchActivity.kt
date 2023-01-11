@@ -9,11 +9,11 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.azmetov.playlistmaker.App
 import com.azmetov.playlistmaker.R
-import com.azmetov.playlistmaker.entities.Track
-import com.azmetov.playlistmaker.network.NetworkDispatcher
-import com.azmetov.playlistmaker.other.Constants.SEARCH_TRACKS_PREFS
-import com.azmetov.playlistmaker.shared.TrackListSharedStore
+import com.azmetov.playlistmaker.data.entities.Track
+import com.azmetov.playlistmaker.data.network.NetworkDispatcher
+import com.azmetov.playlistmaker.data.shared.TrackListSharedStore
 import com.google.android.material.textfield.TextInputLayout
 
 
@@ -46,9 +46,8 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun initObjects() {
-        val sharedPreferences = getSharedPreferences(SEARCH_TRACKS_PREFS, MODE_PRIVATE)
-        trackListSharedStore = TrackListSharedStore(sharedPreferences)
-        networkDispatcher = NetworkDispatcher()
+        trackListSharedStore = App.instance.trackSharedStore
+        networkDispatcher = App.instance.networkDispatcher
         resultAdapter = SearchAdapter()
         historyAdapter = SearchAdapter()
     }
@@ -102,8 +101,6 @@ class SearchActivity : AppCompatActivity() {
             searchEditText.text.clear()
             hideKeyboard(searchEditText)
         }
-
-
     }
 
     private fun setupViews() {
@@ -149,6 +146,7 @@ class SearchActivity : AppCompatActivity() {
                     }
                 }
             }
+            SearchScreenState.Loading -> TODO()
         }
     }
 

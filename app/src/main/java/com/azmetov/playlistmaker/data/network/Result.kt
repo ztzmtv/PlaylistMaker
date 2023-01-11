@@ -1,4 +1,4 @@
-package com.azmetov.playlistmaker.network
+package com.azmetov.playlistmaker.data.network
 
 sealed class Result {
     /**

@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.azmetov.playlistmaker.R
-import com.azmetov.playlistmaker.entities.Track
+import com.azmetov.playlistmaker.data.entities.Track
 import com.azmetov.playlistmaker.other.Converter.convertTime
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners

@@ -1,17 +1,17 @@
-package com.azmetov.playlistmaker.shared
+package com.azmetov.playlistmaker.data.shared
 
 
 import android.content.SharedPreferences
-import com.azmetov.playlistmaker.entities.Track
+import com.azmetov.playlistmaker.data.entities.Track
 import com.azmetov.playlistmaker.other.Constants.COUNT_OF_TRACKS
 import com.azmetov.playlistmaker.other.Constants.TRACKS_HISTORY_KEY
 import com.google.gson.Gson
 
 class TrackListSharedStore(
-    private val sharedPrefs: SharedPreferences
+    private val sharedPrefs: SharedPreferences,
+    private val gson: Gson
 ) {
     private var trackList = mutableListOf<Track>()
-    private val gson = Gson()
 
     fun addTrackToList(track: Track) {
         if (trackList.contains(track)) {

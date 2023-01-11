@@ -1,4 +1,4 @@
-package com.azmetov.playlistmaker.network
+package com.azmetov.playlistmaker.data.network
 
 import retrofit2.Call
 import retrofit2.http.GET
