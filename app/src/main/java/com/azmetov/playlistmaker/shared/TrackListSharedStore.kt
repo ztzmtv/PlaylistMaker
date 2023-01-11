@@ -11,6 +11,7 @@ class TrackListSharedStore(
     private val sharedPrefs: SharedPreferences
 ) {
     private var trackList = mutableListOf<Track>()
+    private val gson = Gson()
 
     fun addTrackToList(track: Track) {
         if (trackList.contains(track)) {
@@ -18,13 +19,13 @@ class TrackListSharedStore(
         }
         trackList.add(track)
         cropList()
-        val json = Gson().toJson(trackList)
+        val json = gson.toJson(trackList)
         sharedPrefs.edit().putString(TRACKS_HISTORY_KEY, json).apply()
     }
 
     fun getTrackList(): List<Track>? {
         val json = sharedPrefs.getString(TRACKS_HISTORY_KEY, null) ?: return null
-        trackList = Gson().fromJson(json, Array<Track>::class.java).toMutableList()
+        trackList = gson.fromJson(json, Array<Track>::class.java).toMutableList()
         return trackList.reversed()
     }
 

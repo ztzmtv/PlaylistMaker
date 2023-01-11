@@ -21,37 +21,47 @@ class NetworkDispatcher {
         requestText: String,
         resultCallback: ((SearchScreenState) -> Unit)
     ) {
-        ApiFactory.apiService.search(requestText).enqueue(
-            object : Callback<PlaylistResponseDto> {
-                override fun onResponse(
-                    call: Call<PlaylistResponseDto>,
-                    response: Response<PlaylistResponseDto>
-                ) {
-                    when {
-                        response.code() == 200 -> {
-                            if (response.body()?.resultCount != 0) {
-                                response.body()
-                                    ?.results
-                                    ?.map { Converter.dtoToEntity(it) }
-                                    ?.apply {
-                                        resultCallback.invoke(SearchScreenState.Result(this))
-                                    }
-                            } else {
-                                resultCallback.invoke(SearchScreenState.NotFound)
-                            }
-
-                        }
-                        response.code() in 400..599 -> {
-                            resultCallback.invoke(SearchScreenState.SearchError)
-                        }
-                    }
-                    Log.d("TAG", "${response.body()}")
+        val callback = object : Callback<PlaylistResponseDto> {
+            override fun onResponse(
+                call: Call<PlaylistResponseDto>,
+                response: Response<PlaylistResponseDto>
+            ) {
+                when (response.code()) {
+                    in 100..199 -> TODO()
+                    in 200..299 -> responseSuccess(response)
+                    in 300..399 -> TODO()
+                    in 400..499 -> responseFailure()
+                    in 500..599 -> responseFailure()
                 }
+                Log.d("TAG", "${response.body()}")
+            }
 
-                override fun onFailure(call: Call<PlaylistResponseDto>, t: Throwable) {
-                    resultCallback.invoke(SearchScreenState.SearchError)
-                    Log.d("TAG", "${t.stackTrace}")
+            override fun onFailure(call: Call<PlaylistResponseDto>, t: Throwable) {
+                responseFailure()
+                Log.d("TAG", "${t.stackTrace}")
+            }
+
+            private fun responseSuccess(response: Response<PlaylistResponseDto>) {
+                if (response.body()?.resultCount == 0)
+                    invokeEmptyResult()
+                else
+                    invokeSuccessResult(response)
+            }
+
+            private fun responseFailure() {
+                resultCallback(SearchScreenState.SearchError)
+            }
+
+            private fun invokeEmptyResult() {
+                resultCallback(SearchScreenState.NotFound)
+            }
+
+            private fun invokeSuccessResult(response: Response<PlaylistResponseDto>) {
+                response.body()?.results?.map { Converter.dtoToEntity(it) }?.apply {
+                    resultCallback.invoke(SearchScreenState.Result(this))
                 }
-            })
+            }
+        }
+        ApiFactory.apiService.search(requestText).enqueue(callback)
     }
 }

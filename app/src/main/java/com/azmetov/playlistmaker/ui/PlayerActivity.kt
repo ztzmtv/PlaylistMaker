@@ -2,6 +2,7 @@ package com.azmetov.playlistmaker.ui
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
@@ -35,23 +36,27 @@ class PlayerActivity : AppCompatActivity() {
         }
         val singleTrackSharedStore =
             SingleTrackSharedStore(getSharedPreferences(PLAYER_SHARED_PREFS, MODE_PRIVATE))
-        //Пока не понял, чем  заменить Deprecated
-        val track = if (intent.extras != null) {
-            (intent.extras!!.getSerializable(EXTRA_TRACK) as Track).apply {
-                singleTrackSharedStore.saveToSharedPrefs(this)
+
+        @Suppress("DEPRECATION")
+        val track =
+            if (intent.extras != null) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    intent.extras!!.getSerializable(EXTRA_TRACK, Track::class.java)?.apply {
+                        singleTrackSharedStore.saveToSharedPrefs(this)
+                    }
+                } else {
+                    (intent.extras!!.getSerializable(EXTRA_TRACK) as Track).apply {
+                        singleTrackSharedStore.saveToSharedPrefs(this)
+                    }
+                }
+                    ?: throw RuntimeException("Extra serializable in PlayerActivity can not be null!")
+            } else {
+                singleTrackSharedStore.loadFromSharedPrefs()
+                    ?: throw RuntimeException("Extra serializable in PlayerActivity can not be null!")
             }
-        } else {
-            singleTrackSharedStore.loadFromSharedPrefs()
-                ?: throw RuntimeException("Track can not be null!!!")
-        }
         bindTrack(track)
-//        setPlayerActivityFlag(true)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-//        setPlayerActivityFlag(false)
-    }
 
     private fun bindTrack(track: Track) {
         with(track) {
@@ -70,11 +75,6 @@ class PlayerActivity : AppCompatActivity() {
             countryView.text = country
         }
     }
-
-
-//    private fun setPlayerActivityFlag(isActive: Boolean) {
-//        sharedPrefs.edit().putBoolean(IS_PLAYER_ACTIVITY_OPENED, isActive).apply()
-//    }
 
     companion object {
         private const val EXTRA_TRACK = "EXTRA_TRACK"

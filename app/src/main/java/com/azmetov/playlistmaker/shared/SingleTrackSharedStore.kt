@@ -8,16 +8,17 @@ import com.google.gson.Gson
 class SingleTrackSharedStore(
     private val sharedPreferences: SharedPreferences
 ) {
+    private val gson = Gson()
 
     fun saveToSharedPrefs(track: Track) {
         sharedPreferences
             .edit()
-            .putString(Constants.TRACK_DATA, Gson().toJson(track))
+            .putString(Constants.TRACK_DATA, gson.toJson(track))
             .apply()
     }
 
     fun loadFromSharedPrefs(): Track? {
         val trackJson = sharedPreferences.getString(Constants.TRACK_DATA, "") ?: ""
-        return Gson().fromJson(trackJson, Track::class.java)
+        return gson.fromJson(trackJson, Track::class.java)
     }
 }

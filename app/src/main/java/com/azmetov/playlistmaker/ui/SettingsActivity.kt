@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.azmetov.playlistmaker.App
@@ -24,6 +25,7 @@ class SettingsActivity : AppCompatActivity() {
         val supportTextView = findViewById<TextView>(R.id.tv_support)
         val agreementTextView = findViewById<TextView>(R.id.tv_user_agreement)
         val themeSwitcherView = findViewById<SwitchMaterial>(R.id.themeSwitcher)
+        val arrowBack = findViewById<ImageView>(R.id.iv_settings_arrow_back)
 
         val darkMode = sharedPrefs.getBoolean(THEME_SWITCHER_KEY, false)
         themeSwitcherView.isChecked = darkMode
@@ -68,6 +70,10 @@ class SettingsActivity : AppCompatActivity() {
             if (intent.resolveActivity(packageManager) != null) {
                 startActivity(intent)
             }
+        }
+
+        arrowBack.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
         }
     }
 

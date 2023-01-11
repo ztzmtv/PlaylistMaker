@@ -8,10 +8,12 @@ data class Track(
     val trackTime: Int, // Продолжительность трека
     val artworkUrl100: String?, // Ссылка на изображение обложки
     val collectionName: String?,
-    val releaseDate: String?,//TODO()
+    val releaseDate: String?,
     val genre: String?,
     val country: String?,
 ) : Serializable {
+
     fun getCoverArtwork() =
         artworkUrl100?.replaceAfterLast('/', "512x512bb.jpg")
+
 }
