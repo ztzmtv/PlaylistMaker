@@ -12,7 +12,10 @@
     <color name="ic_color_inactive">#AEAFB4</color>
     <color name="ic_color_active">#1A1B22</color>
 
-    <color name="text_color_black_white">@color/black</color>
+    <color name="color_yp_black_white">@color/yp_black</color>
+    <color name="color_yp_white_black">@color/yp_white</color>
+    <color name="color_yp_shades_of_grey">#40FFFFFF</color>
+    <color name="color_yp_shades_of_grey_inv">#401A1B22</color>
     <color name="gray_white">@color/yp_text_gray</color>
     <color name="edit_text_background">#E6E8EB</color>
     <color name="edit_text_icon_color">#AEAFB4</color>

@@ -8,7 +8,7 @@
     android:paddingEnd="20dp">
 
     <ImageView
-        android:id="@+id/iv_artwork"
+        android:id="@+id/iv_item_artwork"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_margin="8dp"
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
             android:fontFamily="@font/ys_display_regular"
-            android:textColor="@color/text_color_black_white"
+            android:textColor="@color/color_yp_black_white"
             android:textSize="@dimen/track_name_text_size"
             tools:text="Track Name" />
 
